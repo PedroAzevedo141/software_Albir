@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'TelaPrincipal.ui'
+# Form implementation generated from reading ui file 'ui/TelaPrincipal.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -23,12 +23,9 @@ class Ui_ferramentaAlbir(object):
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-        self.NomeArquivo = QtWidgets.QLineEdit(self.centralwidget)
-        self.NomeArquivo.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
-        self.NomeArquivo.setReadOnly(True)
-        self.NomeArquivo.setClearButtonEnabled(False)
-        self.NomeArquivo.setObjectName("NomeArquivo")
-        self.verticalLayout.addWidget(self.NomeArquivo)
+        self.listWidget_NomeArquivos = QtWidgets.QListWidget(self.centralwidget)
+        self.listWidget_NomeArquivos.setObjectName("listWidget_NomeArquivos")
+        self.verticalLayout.addWidget(self.listWidget_NomeArquivos)
         self.pushButton_Selecionar = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_Selecionar.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.pushButton_Selecionar.setWhatsThis("")
@@ -57,6 +54,9 @@ class Ui_ferramentaAlbir(object):
         self.gridLayout.addLayout(self.verticalLayout_2, 2, 0, 1, 1)
         self.label_PainelCentral = QtWidgets.QLabel(self.centralwidget)
         self.label_PainelCentral.setFocusPolicy(QtCore.Qt.StrongFocus)
+        self.label_PainelCentral.setFrameShape(QtWidgets.QFrame.Box)
+        self.label_PainelCentral.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.label_PainelCentral.setMidLineWidth(0)
         self.label_PainelCentral.setAlignment(QtCore.Qt.AlignCenter)
         self.label_PainelCentral.setObjectName("label_PainelCentral")
         self.gridLayout.addWidget(self.label_PainelCentral, 0, 0, 1, 1)
@@ -72,6 +72,24 @@ class Ui_ferramentaAlbir(object):
 
         self.retranslateUi(ferramentaAlbir)
         QtCore.QMetaObject.connectSlotsByName(ferramentaAlbir)
+
+        self.pushButton_Selecionar.clicked.connect(self.listandoArquivos)
+        self.pushButton_Limpar.clicked.connect(self.limpandoDiretorios)
+
+    def listandoArquivos(self):
+        self.listWidget_NomeArquivos.clear()
+        # Buscando os arquivos... (Limitando apenas para imagens).
+        Filename, _ = QtWidgets.QFileDialog.getOpenFileNames(
+            None, "Selecione os arquivos", "", "Imagens (*.png *.xpm *.jpg)")
+        if Filename:
+            self.namesFiles = Filename
+            self.listWidget_NomeArquivos.addItems(Filename)
+
+    def limpandoDiretorios(self):
+        # Verificar sempre se a variavel "namesFiles" eh ou nao NONE
+        self.listWidget_NomeArquivos.clear()
+        self.namesFiles = None
+
 
     def retranslateUi(self, ferramentaAlbir):
         _translate = QtCore.QCoreApplication.translate
